@@ -1,0 +1,31 @@
+@use '../core/' as *;
+
+footer {
+  padding: 1rem $standard-padding;
+  background-color: $color-primary;
+}
+
+.footer-content {
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  ul {
+    display: grid;
+    place-items: center;
+    gap: 2rem;
+  }
+}
+
+.theme-button {
+  justify-self: center;
+  width: fit-content;
+  border-radius: 0.5rem;
+}
+
+@media (min-width: 800px) {
+  .footer-content {
+    grid-template-columns: 3fr 1fr;
+    ul {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }  
+}

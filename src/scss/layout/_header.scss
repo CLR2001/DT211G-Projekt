@@ -1,0 +1,13 @@
+@use '../core/' as *;
+
+header {
+  padding: 1rem $standard-padding;
+}
+
+.header-logo .icon {
+  width: 2em;
+}
+
+.theme-button .icon {
+  width: 2em;
+}
