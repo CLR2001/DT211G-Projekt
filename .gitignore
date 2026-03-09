@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 useful-code.txt
+src\js\pages\temp.html
 
 # Editor directories and files
 .vscode/*
