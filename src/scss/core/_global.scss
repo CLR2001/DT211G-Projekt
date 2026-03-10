@@ -22,7 +22,13 @@ a {
 }
 
 *:focus-visible {
-  outline: solid 2px $color-accent;
+  outline: solid 2px white;
+}
+
+:root[data-theme="light"] {
+  *:focus-visible{
+    outline-color: black;
+  }
 }
 
 svg {

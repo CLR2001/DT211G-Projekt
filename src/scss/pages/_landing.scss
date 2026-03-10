@@ -7,6 +7,22 @@
   width: 100%;
 }
 
+.search-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  margin-top: 4rem;
+  input {
+    padding: 0.5ch 1ch;
+    border: 2px solid rgb(80, 80, 80);
+    border-radius: 0.5ch;
+    color: $text-primary;
+    background-color: $color-primary;
+  }
+}
+
 .race-section {
   display: grid;
   gap: 1rem;
@@ -51,13 +67,33 @@
   gap: 1ch;
 }
 
+.race-map {
+  height: 200px;
+  width: 200px;
+}
+
 :root[data-theme="light"] {
+  .search-input {
+    input {
+      padding: 0.5ch 1ch;
+      border-color: grey;
+      border-radius: 0.5ch;
+      color: $text-primary;
+      background-color: rgb(221, 221, 221);
+      &::placeholder {
+        color: $text-muted;
+      }
+    }
+  }
   .race-container {
     color: $text-muted-inverse;
     box-shadow: (3px 3px 3px rgba(0, 0, 0, 0.2));
     h2 {
       color: $text-primary-inverse;
     }
+  }
+  .race-header p {
+    color: $text-primary-inverse;
   }
   .icon {
     stroke: $text-primary-inverse;
