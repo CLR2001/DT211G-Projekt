@@ -21,6 +21,12 @@ footer {
   border-radius: 0.5rem;
 }
 
+:root[data-theme="light"] {
+  footer {
+    color: $text-primary-inverse;
+  }
+}
+
 @media (min-width: 800px) {
   .footer-content {
     grid-template-columns: 3fr 1fr;

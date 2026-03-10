@@ -1,4 +1,11 @@
 @use '../core/' as *;
+@use '../animations/' as *;
+
+
+.main-content-index {
+  max-width: none;
+  width: 100%;
+}
 
 .hero-section {
   position: relative;
@@ -7,8 +14,18 @@
   place-items: center;
   max-width: none;
   width: 100%;
+  min-height: 80vh;
   h1 {
+    position: relative;
+    bottom: 20%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 2.5em;
+    text-shadow: (2px 2px 4px black);
     text-align: center;
+    backdrop-filter: blur(5px);
+    z-index: 10;
   }
 }
 
@@ -19,6 +36,64 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(3px) brightness(0.8) saturate(0.8);
-  z-index: -1;
+  object-position: center;
+  filter: brightness(0.8);
+}
+
+.race-section {
+  display: grid;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1400px;
+  margin: 4rem auto;
+  padding: 0 $standard-padding;
+}
+
+.race-container {
+  width: 100%;
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: $color-primary;
+  transition: background-color $theme-duration $theme-curve, transform 200ms ease-out;
+  &:hover {
+    transform: scale(1.03);
+    cursor: pointer;
+  }
+  &:active {
+    transform: scale(1);
+  }
+}
+
+.race-header {
+  img {
+    height: 20px;
+    width: 30px;
+    object-fit: cover;
+  }
+}
+
+:root[data-theme="light"] {
+  .hero-section  {
+    h1 {
+      color: $text-primary-inverse;
+    }
+  }
+  .race-container {
+    color: $text-muted-inverse;
+    background-color: black;
+    box-shadow: (3px 3px 3px rgba(0, 0, 0, 0.2));
+    h2 {
+      color: $text-primary-inverse;
+    }
+  }
+  .icon {
+    stroke: $text-primary-inverse;
+  }
+}
+
+
+@media (min-width: 992px) {
+  .race-section {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
