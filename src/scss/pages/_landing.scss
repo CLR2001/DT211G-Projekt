@@ -7,39 +7,6 @@
   width: 100%;
 }
 
-.hero-section {
-  position: relative;
-  display: grid;
-  grid-template-rows: 1fr;
-  place-items: center;
-  max-width: none;
-  width: 100%;
-  min-height: 80vh;
-  h1 {
-    position: relative;
-    bottom: 20%;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    font-size: 2.5em;
-    text-shadow: (2px 2px 4px black);
-    text-align: center;
-    backdrop-filter: blur(5px);
-    z-index: 10;
-  }
-}
-
-.hero-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  filter: brightness(0.8);
-}
-
 .race-section {
   display: grid;
   gap: 1rem;
@@ -58,6 +25,9 @@
   &:hover {
     transform: scale(1.03);
     cursor: pointer;
+    h2 {
+      text-decoration: underline;
+    }
   }
   &:active {
     transform: scale(1);
@@ -70,17 +40,20 @@
     width: 30px;
     object-fit: cover;
   }
+  p {
+    color: rgb(185, 185, 185);
+  }
+}
+
+.country-name {
+  display: flex;
+  align-items: center;
+  gap: 1ch;
 }
 
 :root[data-theme="light"] {
-  .hero-section  {
-    h1 {
-      color: $text-primary-inverse;
-    }
-  }
   .race-container {
     color: $text-muted-inverse;
-    background-color: black;
     box-shadow: (3px 3px 3px rgba(0, 0, 0, 0.2));
     h2 {
       color: $text-primary-inverse;
@@ -90,7 +63,6 @@
     stroke: $text-primary-inverse;
   }
 }
-
 
 @media (min-width: 992px) {
   .race-section {

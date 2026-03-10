@@ -13,24 +13,36 @@ async function writeRaceGrid(dataArray) {
     contentHeader.classList.add('race-header');
     contentBody.classList.add('race-body');
 
-    contentHeader.innerHTML = `
-      <p>Round ${race.round}</p>
-      <h2>${race.Circuit.Location.country}</h2>
-      <p>${race.Circuit.circuitName}</p>
-    `;
+    /* ------------------------- Creates p-tag for round ------------------------ */
+    const round = document.createElement('p');
+    round.innerHTML = 'Round ' + race.round;
+    contentHeader.append(round);
+
+    /* --------------------- Creates h2-tag for country name -------------------- */
+    const countryName = document.createElement('h2');
+    countryName.innerHTML = race.Circuit.Location.country;
 
     /* ------------------ Creates img-tag for country flag ------------------ */
     const raceCountry = race.Circuit.Location.country;
     let raceCountryImage = document.createElement('img');
     raceCountryImage.src = `/src/assets/images/flags/${raceCountry.toLowerCase().replaceAll(" ", "-")}-flag.svg`;
-    raceCountryImage.alt = `Flag of ${raceCountry}`
-    contentHeader.append(raceCountryImage);
+    raceCountryImage.alt = `Flag of ${raceCountry}`;
+
+    const countryContainer = document.createElement('div');
+    countryContainer.append(countryName, raceCountryImage);
+    countryContainer.classList.add('country-name');
+    contentHeader.append(countryContainer);
+    
+    /* --------------------- Creates p-tag for circuit name --------------------- */
+    const circuitName = document.createElement('p');
+    circuitName.innerHTML = race.Circuit.circuitName;
+    contentHeader.append(circuitName);
 
     /* ----------------------- Creates p-tag for date ----------------------- */
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     let raceDate = document.createElement('p');
-    const raceStartDate = Number(race.FirstPractice.date.slice(-2));
-    const raceEndDate = Number(race.date.slice(-2))
+    const raceStartDate = race.FirstPractice.date.slice(-2);
+    const raceEndDate = race.date.slice(-2);
     const raceStartMonth = Number(race.FirstPractice.date.slice(5, 7))
     const raceEndMonth = Number(race.date.slice(5, 7));
 

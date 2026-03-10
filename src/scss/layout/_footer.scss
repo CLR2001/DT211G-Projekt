@@ -3,6 +3,9 @@
 footer {
   padding: 1rem $standard-padding;
   background-color: $color-primary;
+  a {
+    text-decoration: underline;
+  }
 }
 
 .footer-content {
@@ -19,6 +22,9 @@ footer {
   justify-self: center;
   width: fit-content;
   border-radius: 0.5rem;
+  .icon {
+    width: 2em;
+  }
 }
 
 :root[data-theme="light"] {
@@ -31,7 +37,7 @@ footer {
   .footer-content {
     grid-template-columns: 3fr 1fr;
     ul {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
     }
   }  
 }
