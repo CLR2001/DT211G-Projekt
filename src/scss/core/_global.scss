@@ -8,7 +8,7 @@ body {
   overflow-x: clip;
   font-size: 1rem;
   line-height: 1.5;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: 'Archivo', sans-serif;
   color: $text-muted;
   background-color: $color-background;
 }
@@ -22,7 +22,13 @@ a {
 }
 
 *:focus-visible {
-  outline: solid 2px $color-accent;
+  outline: solid 2px white;
+}
+
+:root[data-theme="light"] {
+  *:focus-visible{
+    outline-color: black;
+  }
 }
 
 svg {

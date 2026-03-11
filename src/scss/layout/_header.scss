@@ -2,12 +2,14 @@
 
 header {
   padding: 1rem $standard-padding;
+  color: $text-primary;
+  background-color: $color-primary;
+  font-size: 1.25em;
+  font-weight: 800;
 }
 
-.header-logo .icon {
-  width: 2em;
-}
-
-.theme-button .icon {
-  width: 2em;
+:root[data-theme="light"] {
+  header {
+    color: $text-primary-inverse;
+  }
 }
