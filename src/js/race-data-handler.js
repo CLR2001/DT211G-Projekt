@@ -124,23 +124,27 @@ function createRaceBodyContent(race, id) {
 
 /* -------------- Function to filter races with a search input -------------- */
 function searchData(dataArray) {
-  const input = document.querySelector("#search-input").value;
-  const data = dataArray.filter(race => 
-    race.Circuit.Location.country.toLowerCase().includes(input.toLowerCase()) ||
-    race.raceName.toLowerCase().includes(input.toLowerCase()) || 
-    race.Circuit.circuitName.toLowerCase().includes(input.toLowerCase())
-  );
-  const filteredRaceData = [...data];
-  writeRaceGrid(filteredRaceData);
+  const input = document.querySelector("#search-input").value.toLowerCase();
+  const raceContainers = document.querySelectorAll('.race-container');
+
+  raceContainers.forEach((container, index) => {
+    const race = dataArray[index];
+    const searchables = `${race.Circuit.Location.country} ${race.raceName} ${race.Circuit.circuitName}`.toLowerCase()
+
+    if (searchables.includes(input)) {
+      container.style.display = "block";
+    }
+    else {
+      container.style.display = "none";
+    }
+  });
 }
 
 /* ----------------------------- Exports module ----------------------------- */
 export async function initRaceData() {
   const raceData = await fetchRaceData();
   writeRaceGrid(raceData);
-  const searchInput = document.querySelector("#search-input");
-  console.log(searchInput);
-  
+  const searchInput = document.querySelector("#search-input");  
   searchInput.addEventListener('input', () => {
     searchData(raceData);
   });
