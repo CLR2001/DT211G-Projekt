@@ -3,7 +3,7 @@
 header {
   padding: 1rem $standard-padding;
   color: $text-primary;
-  background-color: $color-primary;
+  background-color: $color-secondary;
   font-size: 1.25em;
   font-weight: 800;
 }
@@ -11,5 +11,6 @@ header {
 :root[data-theme="light"] {
   header {
     color: $text-primary-inverse;
+    background-color: $color-primary;
   }
 }

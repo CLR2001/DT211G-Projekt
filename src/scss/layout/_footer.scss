@@ -2,7 +2,7 @@
 
 footer {
   padding: 1rem $standard-padding;
-  background-color: $color-primary;
+  background-color: $color-secondary;
   a {
     text-decoration: underline;
   }
@@ -30,6 +30,7 @@ footer {
 :root[data-theme="light"] {
   footer {
     color: $text-primary-inverse;
+    background-color: $color-primary;
   }
 }
 

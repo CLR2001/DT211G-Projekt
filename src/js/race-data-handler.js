@@ -62,12 +62,6 @@ async function writeRaceGrid(dataArray) {
       contentHeader.append(raceDate);
     }
 
-    /* ------------------------------- Creates map ------------------------------ */
-    const mapContainer = document.createElement('div');
-    mapContainer.id = `map-${loopCounter}`;
-    mapContainer.classList.add('race-map');
-    contentBody.append(mapContainer);
-
     /* --------------- Creates link to google maps for directions --------------- */
     const directionsButton = document.createElement('a');
     directionsButton.classList.add('directions-button');
@@ -86,7 +80,7 @@ async function writeRaceGrid(dataArray) {
 
     container.append(contentHeader, contentBody);
     raceSection.append(container);
-    createRaceBodyContent(race, loopCounter);
+
     loopCounter++;
   });
 }
@@ -107,11 +101,11 @@ async function fetchRaceData() {
   }
 }
 
-/* ------------------ Function to create race-content-body ------------------ */
-function createRaceBodyContent(race, id) {
+/* ----------------------- Function to create race-map ---------------------- */
+function createRaceMap(race, id) {
   const lat = parseFloat(race.Circuit.Location.lat);
   const lon = parseFloat(race.Circuit.Location.long);
-  var map = L.map(`map-${id}`).setView([lat, lon], 13);
+  var map = L.map(`${id}`).setView([lat, lon], 13);
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -120,6 +114,11 @@ function createRaceBodyContent(race, id) {
 
   const marker = L.marker([lat, lon]).addTo(map);
   marker.bindPopup(`<b>${race.Circuit.circuitName}</b>`);
+
+  // Updates map after animation to avoid errors
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 100);
 }
 
 /* -------------- Function to filter races with a search input -------------- */
@@ -140,6 +139,70 @@ function searchData(dataArray) {
   });
 }
 
+function openRace(raceData) {
+  const raceSection = document.querySelector('.race-section');
+  raceSection.addEventListener('click', (event) => {
+    const container = event.target.closest('.race-container');
+    if (!container || container.id === 'clone') return;
+
+    raceSection.querySelectorAll('.race-container').forEach(container => {
+      container.dataset.open = "closed";
+    })
+
+    if (container.dataset.open === "closed") {
+      container.dataset.open = "open";
+
+      // Creates clone of race-container to allow animations
+      const rect = container.getBoundingClientRect();
+      const clone = container.cloneNode(true);
+      clone.id = 'clone';
+      
+      clone.style.position = 'fixed';
+      clone.style.top = `${rect.top}px`;
+      clone.style.left = `${rect.left}px`;
+      clone.style.width = `${rect.width}px`;
+      clone.style.height = `${rect.height}px`;
+      clone.style.zIndex = '1000';
+      clone.style.transition = 'all 0.3s ease-in-out';
+      clone.querySelector('.race-body').style.display = 'flex';
+      raceSection.appendChild(clone);
+
+      // Animates clone resizing
+      const standardPadding = 'clamp(1.5rem, 5vw, 3rem)';
+      const scrollbarWidth = getComputedStyle(document.documentElement).getPropertyValue('--scrollbar-width');
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          clone.style.top = '15vh';
+          clone.style.left = standardPadding;
+          clone.style.width = `calc(100vw - 2 * ${standardPadding} - ${scrollbarWidth})`;
+          clone.style.height = '70vh';
+          clone.style.backgroundColor = '	#16181a';
+        });
+      });
+
+      // Finds coordinates for selected race and creates a map accordingly
+      const round = container.querySelector('.race-header p').innerHTML.replace("Round ", ""); 
+      const race = raceData.filter(race => race.round === round);
+      const mapContainer = document.createElement('div');
+      mapContainer.classList.add('race-map');
+      mapContainer.id = 'map';
+      clone.querySelector('.race-body').prepend(mapContainer);
+      createRaceMap(race[0], mapContainer.id);
+    }
+  })
+}
+
+function closeModal() {
+  const raceSection = document.querySelector('.race-section');
+  const modal = document.querySelector('.modal');
+  modal.addEventListener('click', () => {
+    const openRace = document.querySelector('[data-open="open"]');
+    openRace.dataset.open = "closed";
+    raceSection.querySelector('#clone').remove();
+  });
+}
+
+
 /* ----------------------------- Exports module ----------------------------- */
 export async function initRaceData() {
   const raceData = await fetchRaceData();
@@ -148,5 +211,6 @@ export async function initRaceData() {
   searchInput.addEventListener('input', () => {
     searchData(raceData);
   });
+  openRace(raceData);
+  closeModal();
 }
-

@@ -15,7 +15,7 @@ $text-muted-inverse: var(--text-muted-inverse);
 
 @mixin light-theme() {
   --color-primary: #bd1000;
-  --color-secondary: beige;
+  --color-secondary: white;
   --color-accent: #FF1801;
   --color-background: #F8FAFC;
   --color-background-inverse: #121212;
@@ -26,9 +26,9 @@ $text-muted-inverse: var(--text-muted-inverse);
 }
 
 @mixin dark-theme() {
-  --color-primary: black;
-  --color-secondary: grey;
-  --color-accent: black;
+  --color-primary: #16181a;
+  --color-secondary: black;
+  --color-accent: grey;
   --color-background: #101010;
   --color-background-inverse: #F8FAFC;
   --text-primary: #F8F9FA;

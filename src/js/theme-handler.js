@@ -9,7 +9,6 @@
 export function initThemeHandler() {
   // 1. Select DOM Elements 
   const metaColor = document.querySelector('meta[name="color-scheme"]');
-  const body = document.querySelector('body');
   const button = document.querySelector('.theme-button');
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 

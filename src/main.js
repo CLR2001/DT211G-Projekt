@@ -11,4 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeHandler();
   initIcons();
   initRaceData();
+  updateScrollbarWidth();
+  window.addEventListener('resize', () =>{
+    updateScrollbarWidth();
+  });
 });
+
+function updateScrollbarWidth(){
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+}
