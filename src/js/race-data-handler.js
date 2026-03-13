@@ -33,7 +33,7 @@ async function writeRaceGrid(dataArray) {
     /* ------------------ Creates img-tag for country flag ------------------ */
     const raceCountry = race.Circuit.Location.country;
     let raceCountryImage = document.createElement('img');
-    raceCountryImage.src = `/src/assets/images/flags/${raceCountry.toLowerCase().replaceAll(" ", "-")}-flag.svg`;
+    raceCountryImage.src = `/flags/${raceCountry.toLowerCase().replaceAll(" ", "-")}-flag.svg`;
     raceCountryImage.alt = `Flag of ${raceCountry}`;
 
     const countryContainer = document.createElement('div');
