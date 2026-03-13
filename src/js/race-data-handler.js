@@ -9,6 +9,7 @@ async function writeRaceGrid(dataArray) {
     const contentBody = document.createElement('div');
 
     container.classList.add('race-container');
+    container.tabIndex = 0;
     const containerClass = race.raceName.toLowerCase().replaceAll(" ", "-").replaceAll("grand-prix", "gp");
     container.classList.add(containerClass);
     contentHeader.classList.add('race-header');
@@ -62,6 +63,95 @@ async function writeRaceGrid(dataArray) {
       contentHeader.append(raceDate);
     }
 
+    /* ----------------------- Creates tags for race info ----------------------- */
+    const raceInfo = document.createElement('div');
+    raceInfo.classList.add('race-info');
+
+    if (race.FirstPractice) {
+      const fp = document.createElement('p');
+      fp.innerHTML = `
+        <h2>FP1:</h2> 
+        <p><b>Time: </b>${race.FirstPractice.time.replace(":00Z", "")}</p>
+        <p><b>Date: </b> 
+          ${race.FirstPractice.date.slice(-2)} 
+          ${months[Number(race.FirstPractice.date.slice(5, 7)) - 1]}
+        </p>
+        `
+      raceInfo.append(fp);
+    }
+    if (race.SecondPractice) {
+      const fp = document.createElement('p');
+      fp.innerHTML = `
+        <h2>FP2:</h2> 
+        <p><b>Time: </b>${race.SecondPractice.time.replace(":00Z", "")}</p>
+        <p><b>Date: </b> 
+          ${race.SecondPractice.date.slice(-2)} 
+          ${months[Number(race.SecondPractice.date.slice(5, 7)) - 1]}
+        </p>
+        `      
+      raceInfo.append(fp);
+    }
+    if (race.ThirdPractice) {
+      const fp = document.createElement('p');
+      fp.innerHTML = `
+        <h2>FP3:</h2> 
+        <p><b>Time: </b>${race.ThirdPractice.time.replace(":00Z", "")}</p>
+        <p><b>Date: </b> 
+          ${race.ThirdPractice.date.slice(-2)} 
+          ${months[Number(race.ThirdPractice.date.slice(5, 7)) - 1]}
+        </p>
+        `
+      raceInfo.append(fp);
+    }
+    if (race.SprintQualifying) {
+      const sq = document.createElement('p');
+      sq.innerHTML = `
+        <h2>Sprint Qualifying:</h2> 
+        <p><b>Time: </b>${race.SprintQualifying.time.replace(":00Z", "")}</p>
+        <p><b>Date: </b> 
+          ${race.SprintQualifying.date.slice(-2)} 
+          ${months[Number(race.SprintQualifying.date.slice(5, 7)) - 1]}
+        </p>
+        `
+      raceInfo.append(sq);
+    }
+    if (race.Sprint) {
+      const s = document.createElement('p');
+      s.innerHTML = `
+        <h2>Sprint:</h2> 
+        <p><b>Time: </b>${race.Sprint.time.replace(":00Z", "")}</p>
+        <p><b>Date: </b> 
+          ${race.Sprint.date.slice(-2)} 
+          ${months[Number(race.Sprint.date.slice(5, 7)) - 1]}
+        </p>
+        `
+      raceInfo.append(s);
+    }
+    if (race.Qualifying) {
+      const q = document.createElement('p');
+      q.innerHTML = `
+        <h2>Qualifying:</h2> 
+        <p><b>Time: </b>${race.Qualifying.time.replace(":00Z", "")}</p>
+        <p><b>Date: </b> 
+          ${race.Qualifying.date.slice(-2)} 
+          ${months[Number(race.Qualifying.date.slice(5, 7)) - 1]}
+        </p>
+        `
+      raceInfo.append(q);
+    }
+    const r = document.createElement('p');
+      r.innerHTML = `
+        <h2>Race:</h2> 
+        <p><b>Time: </b>${race.time.replace(":00Z", "")}</p>
+        <p><b>Date: </b> 
+          ${race.date.slice(-2)} 
+          ${months[Number(race.date.slice(5, 7)) - 1]}
+        </p>
+        `
+      raceInfo.append(r);
+
+    contentHeader.append(raceInfo);
+
     /* --------------- Creates link to google maps for directions --------------- */
     const directionsButton = document.createElement('a');
     directionsButton.classList.add('directions-button');
@@ -72,12 +162,6 @@ async function writeRaceGrid(dataArray) {
     directionsButton.target = '_blank'
     contentBody.append(directionsButton);
     
-    
-
-
-
-
-
     container.append(contentHeader, contentBody);
     raceSection.append(container);
 
@@ -114,11 +198,13 @@ function createRaceMap(race, id) {
 
   const marker = L.marker([lat, lon]).addTo(map);
   marker.bindPopup(`<b>${race.Circuit.circuitName}</b>`);
+  marker.openPopup();
 
   // Updates map after animation to avoid errors
   setTimeout(() => {
     map.invalidateSize();
-  }, 100);
+    map.setView([lat, lon], 13)
+  }, 300);
 }
 
 /* -------------- Function to filter races with a search input -------------- */
@@ -131,7 +217,10 @@ function searchData(dataArray) {
     const searchables = `${race.Circuit.Location.country} ${race.raceName} ${race.Circuit.circuitName}`.toLowerCase()
 
     if (searchables.includes(input)) {
-      container.style.display = "block";
+      container.style.display = "flex";
+      if(container.dataset.theme = "open") {
+        container.style.display = "grid";
+      }
     }
     else {
       container.style.display = "none";
@@ -142,63 +231,112 @@ function searchData(dataArray) {
 function openRace(raceData) {
   const raceSection = document.querySelector('.race-section');
   raceSection.addEventListener('click', (event) => {
-    const container = event.target.closest('.race-container');
+    createRaceModal(raceData, event);
+  });
+  raceSection.addEventListener('keydown', (event) => {
+    if(event.key === 'Enter') {
+      createRaceModal(raceData, event);
+    }
+  });
+}
+
+function createRaceModal(raceData, event) {
+  const raceSection = document.querySelector('.race-section');
+  const container = event.target.closest('.race-container');
     if (!container || container.id === 'clone') return;
 
-    raceSection.querySelectorAll('.race-container').forEach(container => {
-      container.dataset.open = "closed";
-    })
+    // Creates clone of race-container to allow animations
+    const rect = container.getBoundingClientRect();
+    const clone = container.cloneNode(true);
+    clone.id = 'clone';
+    clone.dataset.open = "open";
 
-    if (container.dataset.open === "closed") {
-      container.dataset.open = "open";
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = `<svg class="icon"><use href="#icon-hamburger-close"></use></svg>`;
+    closeButton.classList.add('close-race');
+    closeButton.addEventListener('click', () => {
+      const openRace = document.querySelector('[data-open="open"]');
+      openRace.dataset.open = "closed";
+      raceSection.querySelector('#clone').remove();
+      header.inert = false;
+      search.inert = false;
+      raceContainers.forEach(container => {
+        container.inert = false;
+      })
+      footer.inert = false;
+    });
+    clone.prepend(closeButton);
 
-      // Creates clone of race-container to allow animations
-      const rect = container.getBoundingClientRect();
-      const clone = container.cloneNode(true);
-      clone.id = 'clone';
-      
-      clone.style.position = 'fixed';
-      clone.style.top = `${rect.top}px`;
-      clone.style.left = `${rect.left}px`;
-      clone.style.width = `${rect.width}px`;
-      clone.style.height = `${rect.height}px`;
-      clone.style.zIndex = '1000';
-      clone.style.transition = 'all 0.3s ease-in-out';
-      clone.querySelector('.race-body').style.display = 'flex';
-      raceSection.appendChild(clone);
+    clone.style.position = 'fixed';
+    clone.style.top = `${rect.top}px`;
+    clone.style.left = `${rect.left}px`;
+    clone.style.width = `${rect.width}px`;
+    clone.style.height = `${rect.height}px`;
+    clone.style.zIndex = '1000';
+    clone.style.transition = 'all 0.3s ease-in-out';
+    clone.removeAttribute('tabindex');
+    clone.querySelector('.race-body').style.display = 'flex';
+    raceSection.appendChild(clone);
 
-      // Animates clone resizing
-      const standardPadding = 'clamp(1.5rem, 5vw, 3rem)';
-      const scrollbarWidth = getComputedStyle(document.documentElement).getPropertyValue('--scrollbar-width');
+    // Animates clone resizing
+    const standardPadding = 'clamp(1.5rem, 5vw, 3rem)';
+    const scrollbarWidth = getComputedStyle(document.documentElement).getPropertyValue('--scrollbar-width');
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          clone.style.top = '15vh';
-          clone.style.left = standardPadding;
-          clone.style.width = `calc(100vw - 2 * ${standardPadding} - ${scrollbarWidth})`;
-          clone.style.height = '70vh';
-          clone.style.backgroundColor = '	#16181a';
-        });
+        clone.style.top =  '50%';
+        clone.style.transform = 'translateY(-50%)';
+        clone.style.left = standardPadding;
+        clone.style.width = `calc(100vw - 2 * ${standardPadding} - ${scrollbarWidth})`;
+        clone.style.minHeight = '70vh'
+        clone.style.height = 'max-content';
+        clone.style.maxHeight = `calc(100svh - 2 * ${standardPadding})`
+        clone.style.boxShadow = 'none';
       });
+    });
 
-      // Finds coordinates for selected race and creates a map accordingly
-      const round = container.querySelector('.race-header p').innerHTML.replace("Round ", ""); 
-      const race = raceData.filter(race => race.round === round);
-      const mapContainer = document.createElement('div');
-      mapContainer.classList.add('race-map');
-      mapContainer.id = 'map';
-      clone.querySelector('.race-body').prepend(mapContainer);
-      createRaceMap(race[0], mapContainer.id);
-    }
-  })
+    // Finds coordinates for selected race and creates a map accordingly
+    const round = container.querySelector('.race-header p').innerHTML.replace("Round ", ""); 
+    const race = raceData.filter(race => race.round === round);
+    const mapContainer = document.createElement('div');
+    mapContainer.classList.add('race-map');
+    mapContainer.id = 'map';
+    clone.querySelector('.race-body').prepend(mapContainer);
+    createRaceMap(race[0], mapContainer.id);
+
+    /* ------------------------------ Toggles inert ----------------------------- */
+    const header = document.querySelector('header');
+    const search = document.querySelector('#search-input');
+    const raceContainers = document.querySelectorAll('.race-container');
+    const footer = document.querySelector('footer');
+
+    header.inert = true;
+    search.inert = true;
+    raceContainers.forEach(container => {
+      container.inert = true;
+    })
+    footer.inert = true;
+
+    clone.inert = false;
 }
 
 function closeModal() {
   const raceSection = document.querySelector('.race-section');
   const modal = document.querySelector('.modal');
+  const header = document.querySelector('header');
+  const search = document.querySelector('#search-input');
+  const raceContainers = document.querySelectorAll('.race-container');
+  const footer = document.querySelector('footer');
+
   modal.addEventListener('click', () => {
     const openRace = document.querySelector('[data-open="open"]');
     openRace.dataset.open = "closed";
     raceSection.querySelector('#clone').remove();
+    header.inert = false;
+    search.inert = false;
+    raceContainers.forEach(container => {
+      container.inert = false;
+    })
+    footer.inert = false;
   });
 }
 
