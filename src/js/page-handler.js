@@ -81,6 +81,4 @@ export function initPageHandler() {
   const currentPath = window.location.pathname.replace('/', '');
   const initialPage = currentPath || 'index';
   renderPageContent(initialPage, false);
-
-  
 }
