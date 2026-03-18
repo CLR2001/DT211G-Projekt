@@ -35,6 +35,9 @@ body:has(.race-container[data-open="open"]) {
   padding: 2rem;
   border-radius: 1rem;
   background-color: $color-primary;
+  h2 {
+    text-decoration: underline;
+  }
   transition: background-color $theme-duration $theme-curve, transform 200ms ease-out;
   &:hover {
     transform: scale(1.03);
@@ -201,6 +204,9 @@ body:has(.race-container[data-open="open"]) {
 @media (min-width: 992px) {
   .race-section {
     grid-template-columns: repeat(3, 1fr);
+    h2 {
+      text-decoration: none;
+    }
   }
 
   .race-container {
