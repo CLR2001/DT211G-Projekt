@@ -1,4 +1,4 @@
-# ◈ Projektnamn
+# ◈ Projekt DT211G
 Detta repository innehåller en mashup av två API:er.
 
 
