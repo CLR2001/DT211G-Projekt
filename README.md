@@ -3,11 +3,11 @@ Detta repository innehåller en mashup av två API:er.
 
 
 ## ✦ Projektbeskrivning
-Denna webbplats kombinerar Jolpica API med Leaflet API för att presentera F1-schemat tillsammans med position på kartan.
+Denna webbplats kombinerar Jolpica API med OpenStreetMap API för att presentera F1-schemat tillsammans med position på kartan.
 
 ## ⚙ Funktioner
 * **Aktuell F1 Data:** Med hjälp av ett API presenteras aktuell och uppdaterad information om race-schemat för säsong 2026.
-* **Leaflet API:** Leaflet API tillsammans med OpenStreetMap gör det möjligt att visa banorna plats på en interaktiv karta.
+* **OpenStreetMap API:** OpenStreetMap API tillsammans med Leaflet gör det möjligt att visa banorna plats på en interaktiv karta.
 * **Automatiserad process:** Vite används för att automatisesra större delar av arbetet. Exempelvis minimering och konkatenering.
 
 ## ⌨ Installation & Setup
