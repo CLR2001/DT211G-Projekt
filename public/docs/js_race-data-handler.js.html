@@ -1,21 +1,49 @@
-"use Strict";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/race-data-handler.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/race-data-handler.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>"use Strict";
 
 /**
- * @file F1 Race Schedule & Circuit Map Handler
+ * @file F1 Race Schedule &amp; Circuit Map Handler
  * @module RaceDataModule
  * @description
- * This module manages the Formula 1 2026 race calendar. It handles data <br>
- * fetching from the Jolpica API, dynamic rendering of the race grid, and interactive features including: <br>
- * 1. Data Management: Fetches, filters, and sorts race schedules. <br>
- * 2. Interactive UI: Generates a responsive grid with expanded modal views. <br>
- * 3. Geospatial Integration: Visualizes circuit locations using Leaflet.js maps. <br>
- * 4. Accessibility & UX: Implements keyboard navigation and manages the 'inert' attribute for focus trapping.
+ * This module manages the Formula 1 2026 race calendar. It handles data &lt;br>
+ * fetching from the Jolpica API, dynamic rendering of the race grid, and interactive features including: &lt;br>
+ * 1. Data Management: Fetches, filters, and sorts race schedules. &lt;br>
+ * 2. Interactive UI: Generates a responsive grid with expanded modal views. &lt;br>
+ * 3. Geospatial Integration: Visualizes circuit locations using Leaflet.js maps. &lt;br>
+ * 4. Accessibility &amp; UX: Implements keyboard navigation and manages the 'inert' attribute for focus trapping.
  */
 
 /**
  * Renders the race grid by creating and appending HTML elements for each race.
- * @param {Array<Object>} dataArray - An array of race objects from Jolpica API.
- * @returns {Promise<void>}
+ * @param {Array&lt;Object>} dataArray - An array of race objects from Jolpica API.
+ * @returns {Promise&lt;void>}
  */
 async function writeRaceGrid(dataArray) {
   const raceSection = document.querySelector('.race-section')
@@ -42,7 +70,7 @@ async function writeRaceGrid(dataArray) {
     /* --------------------- Creates h2-tag for country name -------------------- */
     const countryName = document.createElement('h2');
     const country = race.Circuit.Location.country;
-    if (country === 'USA' || country === 'UAE' || country === 'Spain' && race.Circuit.Location.locality === 'Barcelona') {
+    if (country === 'USA' || country === 'UAE' || country === 'Spain' &amp;&amp; race.Circuit.Location.locality === 'Barcelona') {
       countryName.innerHTML = race.raceName.replaceAll(' Grand Prix',"");
     }
     else {
@@ -89,83 +117,83 @@ async function writeRaceGrid(dataArray) {
     if (race.FirstPractice) {
       const fp = document.createElement('p');
       fp.innerHTML = `
-        <h2>FP1:</h2> 
-        <p><b>Time: </b>${race.FirstPractice.time.replace(":00Z", "")}</p>
-        <p><b>Date: </b> 
+        &lt;h2>FP1:&lt;/h2> 
+        &lt;p>&lt;b>Time: &lt;/b>${race.FirstPractice.time.replace(":00Z", "")}&lt;/p>
+        &lt;p>&lt;b>Date: &lt;/b> 
           ${race.FirstPractice.date.slice(-2)} 
           ${months[Number(race.FirstPractice.date.slice(5, 7)) - 1]}
-        </p>
+        &lt;/p>
         `
       raceInfo.append(fp);
     }
     if (race.SecondPractice) {
       const fp = document.createElement('p');
       fp.innerHTML = `
-        <h2>FP2:</h2> 
-        <p><b>Time: </b>${race.SecondPractice.time.replace(":00Z", "")}</p>
-        <p><b>Date: </b> 
+        &lt;h2>FP2:&lt;/h2> 
+        &lt;p>&lt;b>Time: &lt;/b>${race.SecondPractice.time.replace(":00Z", "")}&lt;/p>
+        &lt;p>&lt;b>Date: &lt;/b> 
           ${race.SecondPractice.date.slice(-2)} 
           ${months[Number(race.SecondPractice.date.slice(5, 7)) - 1]}
-        </p>
+        &lt;/p>
         `      
       raceInfo.append(fp);
     }
     if (race.ThirdPractice) {
       const fp = document.createElement('p');
       fp.innerHTML = `
-        <h2>FP3:</h2> 
-        <p><b>Time: </b>${race.ThirdPractice.time.replace(":00Z", "")}</p>
-        <p><b>Date: </b> 
+        &lt;h2>FP3:&lt;/h2> 
+        &lt;p>&lt;b>Time: &lt;/b>${race.ThirdPractice.time.replace(":00Z", "")}&lt;/p>
+        &lt;p>&lt;b>Date: &lt;/b> 
           ${race.ThirdPractice.date.slice(-2)} 
           ${months[Number(race.ThirdPractice.date.slice(5, 7)) - 1]}
-        </p>
+        &lt;/p>
         `
       raceInfo.append(fp);
     }
     if (race.SprintQualifying) {
       const sq = document.createElement('p');
       sq.innerHTML = `
-        <h2>Sprint Qualifying:</h2> 
-        <p><b>Time: </b>${race.SprintQualifying.time.replace(":00Z", "")}</p>
-        <p><b>Date: </b> 
+        &lt;h2>Sprint Qualifying:&lt;/h2> 
+        &lt;p>&lt;b>Time: &lt;/b>${race.SprintQualifying.time.replace(":00Z", "")}&lt;/p>
+        &lt;p>&lt;b>Date: &lt;/b> 
           ${race.SprintQualifying.date.slice(-2)} 
           ${months[Number(race.SprintQualifying.date.slice(5, 7)) - 1]}
-        </p>
+        &lt;/p>
         `
       raceInfo.append(sq);
     }
     if (race.Sprint) {
       const s = document.createElement('p');
       s.innerHTML = `
-        <h2>Sprint:</h2> 
-        <p><b>Time: </b>${race.Sprint.time.replace(":00Z", "")}</p>
-        <p><b>Date: </b> 
+        &lt;h2>Sprint:&lt;/h2> 
+        &lt;p>&lt;b>Time: &lt;/b>${race.Sprint.time.replace(":00Z", "")}&lt;/p>
+        &lt;p>&lt;b>Date: &lt;/b> 
           ${race.Sprint.date.slice(-2)} 
           ${months[Number(race.Sprint.date.slice(5, 7)) - 1]}
-        </p>
+        &lt;/p>
         `
       raceInfo.append(s);
     }
     if (race.Qualifying) {
       const q = document.createElement('p');
       q.innerHTML = `
-        <h2>Qualifying:</h2> 
-        <p><b>Time: </b>${race.Qualifying.time.replace(":00Z", "")}</p>
-        <p><b>Date: </b> 
+        &lt;h2>Qualifying:&lt;/h2> 
+        &lt;p>&lt;b>Time: &lt;/b>${race.Qualifying.time.replace(":00Z", "")}&lt;/p>
+        &lt;p>&lt;b>Date: &lt;/b> 
           ${race.Qualifying.date.slice(-2)} 
           ${months[Number(race.Qualifying.date.slice(5, 7)) - 1]}
-        </p>
+        &lt;/p>
         `
       raceInfo.append(q);
     }
     const r = document.createElement('p');
       r.innerHTML = `
-        <h2>Race:</h2> 
-        <p><b>Time: </b>${race.time.replace(":00Z", "")}</p>
-        <p><b>Date: </b> 
+        &lt;h2>Race:&lt;/h2> 
+        &lt;p>&lt;b>Time: &lt;/b>${race.time.replace(":00Z", "")}&lt;/p>
+        &lt;p>&lt;b>Date: &lt;/b> 
           ${race.date.slice(-2)} 
           ${months[Number(race.date.slice(5, 7)) - 1]}
-        </p>
+        &lt;/p>
         `
       raceInfo.append(r);
 
@@ -177,7 +205,7 @@ async function writeRaceGrid(dataArray) {
     directionsButton.innerHTML = 'Få vägbeskrivning';
     const lat = race.Circuit.Location.lat;
     const lon = race.Circuit.Location.long;
-    directionsButton.href = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+    directionsButton.href = `https://www.google.com/maps/dir/?api=1&amp;destination=${lat},${lon}`;
     directionsButton.target = '_blank'
     contentBody.append(directionsButton);
     
@@ -191,11 +219,11 @@ async function writeRaceGrid(dataArray) {
 /**
  * Fetches Formula 1 race data for the 2026 season from the API.
  * @async
- * @returns {Promise<Array<Object>|undefined>} A promise that resolves to an array of race objects.
+ * @returns {Promise&lt;Array&lt;Object>|undefined>} A promise that resolves to an array of race objects.
  */
 async function fetchRaceData() {
   try {
-    const response = await fetch('https://api.jolpi.ca/ergast/f1/?limit=28&offset=1148');
+    const response = await fetch('https://api.jolpi.ca/ergast/f1/?limit=28&amp;offset=1148');
     const data = await response.json();
     const races = data.MRData.RaceTable.Races.filter(race => race.season === '2026').sort((a, b) => Number(a.round) - Number(b.round));
     return races;
@@ -220,11 +248,11 @@ function createRaceMap(race, id) {
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    attribution: '&amp;copy; &lt;a href="http://www.openstreetmap.org/copyright">OpenStreetMap&lt;/a>'
   }).addTo(map);
 
   const marker = L.marker([lat, lon]).addTo(map);
-  marker.bindPopup(`<b>${race.Circuit.circuitName}</b>`);
+  marker.bindPopup(`&lt;b>${race.Circuit.circuitName}&lt;/b>`);
   marker.openPopup();
 
   // Updates map after animation to avoid errors
@@ -235,9 +263,9 @@ function createRaceMap(race, id) {
 }
 
 /**
- * Filters the displayed race containers based on the user's search input. <br>
+ * Filters the displayed race containers based on the user's search input. &lt;br>
  * Matches against country, race name, and circuit name.
- * @param {Array<Object>} dataArray - The original array of race data.
+ * @param {Array&lt;Object>} dataArray - The original array of race data.
  */
 function searchData(dataArray) {
   const input = document.querySelector("#search-input").value.toLowerCase();
@@ -260,9 +288,9 @@ function searchData(dataArray) {
 }
 
 /**
- * Attaches event listeners to the race section to handle user interaction. <br>
+ * Attaches event listeners to the race section to handle user interaction. &lt;br>
  * Enables opening a detailed race modal via mouse click or the 'Enter' key for improved accessibility.
- * @param {Array<Object>} raceData - The complete dataset of race information used to populate the modal.
+ * @param {Array&lt;Object>} raceData - The complete dataset of race information used to populate the modal.
  * @returns {void}
  */
 function openRace(raceData) {
@@ -280,7 +308,7 @@ function openRace(raceData) {
 /**
  * Creates a modal view of a race by cloning the card and expanding it.
  * Handles animations, map initialization, and manages accessibility (inert attribute).
- * @param {Array<Object>} raceData - The full race dataset to find the specific round details.
+ * @param {Array&lt;Object>} raceData - The full race dataset to find the specific round details.
  * @param {Event} event - The click or keydown event that triggered the modal.
  */
 function createRaceModal(raceData, event) {
@@ -295,7 +323,7 @@ function createRaceModal(raceData, event) {
     clone.dataset.open = "open";
 
     const closeButton = document.createElement('button');
-    closeButton.innerHTML = `<svg class="icon"><use href="#icon-hamburger-close"></use></svg>`;
+    closeButton.innerHTML = `&lt;svg class="icon">&lt;use href="#icon-hamburger-close">&lt;/use>&lt;/svg>`;
     closeButton.classList.add('close-race');
     closeButton.addEventListener('click', () => {
       const openRace = document.querySelector('[data-open="open"]');
@@ -363,9 +391,9 @@ function createRaceModal(raceData, event) {
 }
 
 /**
- * Initializes the event listener for closing the race detail modal. <br>
- * When the modal background is clicked, it removes the cloned element, <br>
- * resets data attributes, and restores interactivity to the rest of <br>
+ * Initializes the event listener for closing the race detail modal. &lt;br>
+ * When the modal background is clicked, it removes the cloned element, &lt;br>
+ * resets data attributes, and restores interactivity to the rest of &lt;br>
  * the page by disabling the 'inert' property on main layout components.
  * @returns {void}
  */
@@ -395,7 +423,7 @@ function closeModal() {
  * Main entry point to initialize the race data module.
  * Fetches data, renders the grid, and attaches event listeners for search and modals.
  * @async
- * @returns {Promise<void>}
+ * @returns {Promise&lt;void>}
  */
 export async function initRaceData() {
   const raceData = await fetchRaceData();
@@ -406,4 +434,26 @@ export async function initRaceData() {
   });
   openRace(raceData);
   closeModal();
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-IconLoader.html">IconLoader</a></li><li><a href="module-ImageOptimizer.html">ImageOptimizer</a></li><li><a href="module-Main.html">Main</a></li><li><a href="module-PageHandler.html">PageHandler</a></li><li><a href="module-RaceDataModule.html">RaceDataModule</a></li><li><a href="module-ThemeHandler.html">ThemeHandler</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Fri Mar 20 2026 16:21:06 GMT+0100 (centraleuropeisk normaltid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
