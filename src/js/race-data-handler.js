@@ -249,7 +249,7 @@ function searchData(dataArray) {
 
     if (searchables.includes(input)) {
       container.style.display = "flex";
-      if(container.dataset.theme = "open") {
+      if(container.dataset.theme === "open") {
         container.style.display = "grid";
       }
     }
