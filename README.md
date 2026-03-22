@@ -33,6 +33,9 @@ Denna webbplats kombinerar Jolpica API med OpenStreetMap API för att presentera
 ## ⬀ Länk till webbplats
 [Webbplats](https://dt211g-projekt.luro2501.workers.dev/)
 
+## ⬀ Länk till rapport
+[Läs projektrapporten här](./docs/ludvig-rosenqvist-projektrapport.pdf)
+
 ## ⬢ Utvecklare
 **Ludvig Rosenqvist** — *Student*
 🔗 [GitHub](https://github.com/CLR2001)
